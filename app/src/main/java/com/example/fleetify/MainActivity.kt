@@ -13,10 +13,7 @@ import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
-import com.example.fleetify.Fragments.HomeFragment
-import com.example.fleetify.Fragments.NotificationsFragment
-import com.example.fleetify.Fragments.ProfileFragment
-import com.example.fleetify.Fragments.SearchFragment
+import com.example.fleetify.Fragments.*
 
 class MainActivity : AppCompatActivity() {
 
@@ -32,7 +29,7 @@ class MainActivity : AppCompatActivity() {
                 selectedFragment=SearchFragment()
             }
             R.id.nav_add_trip -> {
-                return@OnNavigationItemSelectedListener true
+                selectedFragment= MapsFragment()
             }
             R.id.nav_notifications -> {
                 selectedFragment=NotificationsFragment()
