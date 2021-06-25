@@ -50,7 +50,7 @@ class SignupActivity : AppCompatActivity() {
                 mAuth.createUserWithEmailAndPassword(userEmail, password)
                     .addOnCompleteListener { task ->
                         if (task.isSuccessful) {
-                            saveUserInfo(fullName, userName, userEmail)
+                            saveUserInfo(fullName, userName, userEmail, progressDialog)
                         } else {
                             val message = task.exception!!.toString()
                             Toast.makeText(this, "Error $message", Toast.LENGTH_LONG).show()
@@ -63,7 +63,7 @@ class SignupActivity : AppCompatActivity() {
         }
     }
 
-    private fun saveUserInfo(fullName: String, userName: String, userEmail: String) {
+    private fun saveUserInfo(fullName: String, userName: String, userEmail: String, progressDialog: ProgressDialog) {
 
         val currentUserID= FirebaseAuth.getInstance().currentUser!!.uid
         val usersRef: DatabaseReference = FirebaseDatabase.getInstance().reference.child("Users")
@@ -74,19 +74,18 @@ class SignupActivity : AppCompatActivity() {
         userMap["userName"] = userName
         userMap["email"] = userEmail
         userMap["bio"] = "hi, Im a Driver/ User"
+        userMap["image"]="https://firebasestorage.googleapis.com/v0/b/fleetify-c6954.appspot.com/o/Default%20Images%2Fsg.jpg?alt=media&token=409080f0-4b1d-4fd5-ad0c-22e45597f500"
+
         usersRef.child(currentUserID).setValue(userMap)
-            .addOnCompleteListener{ task ->
-                val progressDialog = ProgressDialog(this@SignupActivity)
+            .addOnCompleteListener{ task->
                 if(task.isSuccessful){
 
-
-                    Toast.makeText(this, "Account has been created successfully", Toast.LENGTH_LONG)
-
+                    progressDialog.dismiss()
+                    Toast.makeText(this, "Account has been created successfully", Toast.LENGTH_LONG).show()
                     val intent= Intent(this@SignupActivity, MainActivity::class.java)
                     intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK)
                     startActivity(intent)
                     finish()
-
 
                 }
                 else{

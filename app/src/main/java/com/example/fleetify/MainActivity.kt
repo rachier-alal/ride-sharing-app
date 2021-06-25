@@ -14,6 +14,7 @@ import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import com.example.fleetify.Fragments.*
+import com.google.android.gms.location.LocationServices
 
 class MainActivity : AppCompatActivity() {
 
@@ -22,20 +23,25 @@ class MainActivity : AppCompatActivity() {
     private val onNavigationItemSelectedListener = BottomNavigationView.OnNavigationItemSelectedListener { item ->
         when (item.itemId) {
             R.id.nav_home -> {
-
-                selectedFragment=HomeFragment()
+                moveTOFragment(HomeFragment())
+                return@OnNavigationItemSelectedListener true
             }
             R.id.nav_search -> {
-                selectedFragment=SearchFragment()
+                moveTOFragment(SearchFragment())
+                return@OnNavigationItemSelectedListener true
             }
             R.id.nav_add_trip -> {
-                selectedFragment= MapsFragment()
+                moveTOFragment(MapsFragment())
+                return@OnNavigationItemSelectedListener true
+
             }
             R.id.nav_notifications -> {
-                selectedFragment=NotificationsFragment()
+                moveTOFragment(NotificationsFragment())
+                return@OnNavigationItemSelectedListener true
             }
             R.id.nav_profile -> {
-                selectedFragment=ProfileFragment()
+                moveTOFragment(ProfileFragment())
+                return@OnNavigationItemSelectedListener true
             }
         }
         if(selectedFragment != null){
@@ -48,6 +54,7 @@ class MainActivity : AppCompatActivity() {
         false
     }
     override fun onCreate(savedInstanceState: Bundle?) {
+
         super.onCreate(savedInstanceState)
         this.requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_main)
@@ -56,12 +63,14 @@ class MainActivity : AppCompatActivity() {
 
 
         navView.setOnNavigationItemSelectedListener(onNavigationItemSelectedListener)
+        
+        moveTOFragment(MapsFragment())
 
-        supportFragmentManager.beginTransaction().replace(
-            R.id.fragment_container,
-            HomeFragment()
-        ).commit()
-
+    }
+    private fun moveTOFragment(fragment: Fragment){
+        val fragmentTrans = supportFragmentManager.beginTransaction()
+        fragmentTrans.replace(R.id.fragment_container, fragment)
+        fragmentTrans.commit()
     }
 
 

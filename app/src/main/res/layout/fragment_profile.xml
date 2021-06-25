@@ -179,6 +179,7 @@
                 </LinearLayout>
                 </LinearLayout>
                     <Button
+                        android:id="@+id/edit_user_profile"
                         android:layout_width="170dp"
                         android:layout_height="32dp"
                         android:text="edit profile"
